@@ -1,16 +1,13 @@
-// Ask the user for a choice input
-
-let userChoice;
+let userChoice; 
+let computerChoice; 
+let random; /*To randomize computerChoice.
+This three variables are defined in playRound so that each variable gets a new
+value for each round*/
 
 function getUserChoice() {
   userChoice = prompt(`Rock, Paper or Scissors?`).toLowerCase();
-  console.log(`Player chose ${userChoice}.`)
   return userChoice;
 }
-
-// Ask the computer for a choice input
-
-let random;
 
 function getComputerChoice(random) {
   if (random === 1) {
@@ -22,12 +19,11 @@ function getComputerChoice(random) {
   }
 }
 
-let computerChoice;
-
 function playRound(userChoice, computerChoice) {
   
   userChoice = getUserChoice();
-  random = Math.floor((Math.random()* 3 ) + 1);
+  console.log(`Player chose ${userChoice}.`);
+  random = Math.floor((Math.random()* 3 ) + 1); //Added 1 to use values 1-3
   computerChoice = getComputerChoice(random);
   console.log(`Computer chose ${computerChoice}.`);
 
@@ -47,37 +43,25 @@ function playRound(userChoice, computerChoice) {
     console.log("Computer wins");
     return `computer wins`;
   }
-
 };
 
 let playerCount = 0;
 let computerCount = 0;
+let numberOfRounds = prompt(`How many rounds?`,`5`);
 
 function game() {
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < numberOfRounds; i++) {
     switch (playRound(userChoice, computerChoice)) {
       case `player wins`:
         playerCount++;
-        console.log(playerCount);
+        console.log(`Player count: ${playerCount}.`);
         break;
       case `computer wins`:
         computerCount++;
-        console.log(computerCount);
+        console.log(`Computer count: ${computerCount}.`);
         break;
     }
   }
-
-
-
- /*   if (playRound(userChoice, computerChoice) === `player wins`) {
-      playerCount++;
-      console.log(`Player counter is ${playerCount}.`);
-    } else if (playRound(userChoice, computerChoice) === `computer wins`) {
-      computerCount++;
-      console.log(`Computer counter is ${computerCount}.`);
-    };
-  } */ 
-
 
   if (playerCount > computerCount) {
     return `Player wins!`;
