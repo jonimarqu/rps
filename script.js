@@ -1,75 +1,72 @@
-let userChoice; 
-let computerChoice; 
-let random; /*To randomize computerChoice.
-This three variables are defined in playRound so that each variable gets a new
-value for each round*/
-
-function getUserChoice() {
-  userChoice = prompt(`Rock, Paper or Scissors?`).toLowerCase();
-  return userChoice;
-}
-
-function getComputerChoice(random) {
-  if (random === 1) {
-    return `rock`;
-  } else if (random === 2) {
-    return `paper`;
-  } else {
-    return `scissors`;
-  }
-}
-
-function playRound(userChoice, computerChoice) {
-  
-  userChoice = getUserChoice();
-  console.log(`Player chose ${userChoice}.`);
-  random = Math.floor((Math.random()* 3 ) + 1); //Added 1 to use values 1-3
-  computerChoice = getComputerChoice(random);
-  console.log(`Computer chose ${computerChoice}.`);
-
-  if(userChoice === computerChoice) {
-    console.log("Draw");
-    return `draw`;
-  } else if(userChoice === `rock` && computerChoice === `scissors`) {
-    console.log("Player wins");
-    return `player wins`;
-  } else if(userChoice === `paper` && computerChoice === `rock`) {
-    console.log("Player wins");
-    return `player wins`;
-  } else if(userChoice === `scissors` && computerChoice === `paper`) {
-    console.log("Player wins");
-    return `player wins`;
-  } else {
-    console.log("Computer wins");
-    return `computer wins`;
-  }
-};
-
+let userChoice;
 let playerCount = 0;
 let computerCount = 0;
-let numberOfRounds = prompt(`How many rounds?`,`5`);
+
+const container = document.querySelector(`div`);
+const rock = document.querySelector("#rock");
+
+const results = document.createElement('div');
+results.classList.add(`results`);
+container.insertBefore(results, rock);
+
+const score = document.createElement('div');
+container.appendChild(score);
+
+function getComputerChoice() {
+  choices = [`rock`, `paper`, `scissors`];
+  index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+};
+
+function playRound(userChoice) {
+  console.log(`Player chose ${userChoice}.`);
+  let computerChoice = getComputerChoice();
+  console.log(`Computer chose ${computerChoice}.`);
+
+  if (userChoice === computerChoice) {    
+    results.textContent = `Draw!`;
+    return 'draw';
+  } else if (
+      userChoice === `rock` && computerChoice === `scissors` ||
+      userChoice === `paper` && computerChoice === `rock` ||
+      userChoice === `scissors` && computerChoice === `paper`
+    ) {
+    results.textContent = `Player wins!`;
+    return 'player score';
+  } else {
+    results.textContent = `Computer wins!`;
+    return 'pc score';
+  };
+};
+
+function declareWinner() {
+  let objectiveScore = 5;
+
+  if (playerCount == objectiveScore) {
+    container.textContent = `PLAYER WINS!!`;
+  } else if (computerCount == objectiveScore) {
+    container.textContent = `COMPUTER WINS!!`;
+  };
+};
 
 function game() {
-  for (let i = 0; i < numberOfRounds; i++) {
-    switch (playRound(userChoice, computerChoice)) {
-      case `player wins`:
-        playerCount++;
-        console.log(`Player count: ${playerCount}.`);
-        break;
-      case `computer wins`:
-        computerCount++;
-        console.log(`Computer count: ${computerCount}.`);
-        break;
-    }
-  }
+  let userChoice = this.id;
 
-  if (playerCount > computerCount) {
-    return `Player wins!`;
-  } else if (playerCount < computerCount) {
-    return `Computer wins!`;
-  } else {
-    return `DRAW!`;
-  }
-}
 
-console.log(game());
+  let winner = playRound(userChoice);
+  if (winner == `player score`) {
+    ++playerCount;
+  };
+  if (winner == `pc score`) {
+    ++computerCount;
+  };
+
+  score.textContent = `Player score is ${playerCount} and computer score is ${computerCount}.`;
+
+  declareWinner();
+};
+
+const button = document.querySelectorAll(`button`);
+button.forEach(button => button.addEventListener(`click`, game));
+
+// ADD RESET BUTTON
