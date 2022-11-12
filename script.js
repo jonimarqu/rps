@@ -44,14 +44,17 @@ function declareWinner() {
 
   if (playerCount == objectiveScore) {
     container.textContent = `PLAYER WINS!!`;
+    container.appendChild(resetButton);
   } else if (computerCount == objectiveScore) {
     container.textContent = `COMPUTER WINS!!`;
+    container.appendChild(resetButton);
   };
+
+  resetButton.addEventListener(`click`, reset);
 };
 
 function game() {
   let userChoice = this.id;
-
 
   let winner = playRound(userChoice);
   if (winner == `player score`) {
@@ -66,7 +69,12 @@ function game() {
   declareWinner();
 };
 
+function reset() {
+  window.location.reload();
+  console.log(`deberia reload`);
+};
+const resetButton = document.createElement(`button`);
+resetButton.innerHTML = `Restart`;
+
 const button = document.querySelectorAll(`button`);
 button.forEach(button => button.addEventListener(`click`, game));
-
-// ADD RESET BUTTON
